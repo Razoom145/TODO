@@ -2,7 +2,8 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Task } from "@/app/dashboard/page";
+import { Task } from "@/app/[locale]/dashboard/page";
+import { useTranslations } from "next-intl";
 
 type ExerciseProps = {
     tasks: Task[];
@@ -10,15 +11,16 @@ type ExerciseProps = {
 };
 
 export default function Exercise({ tasks, onToggle }: ExerciseProps) {
+    const tDashboard = useTranslations("dashboard");
+    const tTask = useTranslations("task");
+
     const toggleTask = async (task: Task) => {
         try {
             const res = await fetch(`/api/tasks/${task.id}`, {
                 method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    completed: !task.completed,
+                    completed: !task.done
                 }),
             });
 
@@ -37,90 +39,97 @@ export default function Exercise({ tasks, onToggle }: ExerciseProps) {
     if (tasks.length === 0) {
         return (
             <p className="text-center text-[#7a5a43] italic pt-10">
-                Задачи отсутствуют. Нажмите "+ add", чтобы создать новую! 🐾
+                {tDashboard("emptyTasks")}
             </p>
         );
     }
 
     return (
-        <div className="space-y-5">
-            <AnimatePresence initial={false}>
+        <div className="space-y-8">
+            <AnimatePresence initial={false} mode="popLayout">
                 {tasks.map((task) => (
                     <motion.div
                         key={task.id}
-                        layout
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.35, ease: "easeInOut" }}
-                        className="flex items-start gap-5 hover:translate-x-2 transition-all duration-300"
+                        layoutId={`task-${task.id}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                            opacity: 1,
+                            y: 0,
+                        }}
+                        exit={{
+                            opacity: 0,
+                            scale: 0.95,
+                            y: -10
+                        }}
+                        transition={{
+                            layout: { duration: 0.45, ease: "easeInOut" },
+                            opacity: { duration: 0.3 },
+                            scale: { duration: 0.25 },
+                        }}
+                        className="flex items-start gap-5 hover:translate-x-1 transition-all duration-300 relative"
                     >
-                        {/* checkbox */}
+                        {/* Checkbox */}
                         <div
                             onClick={() => toggleTask(task)}
-                            className={`min-w-6 h-6 border-2 border-[#8b5e3c] rounded-md mt-1 shadow-sm cursor-pointer transition-all flex items-center justify-center
-                            ${
-                                task.completed
-                                    ? "bg-[#8b5e3c]"
-                                    : "bg-[#fff9eb]"
+                            className={`min-w-6 h-6 border-2 border-[#8b5e3c] rounded-md mt-1.5 cursor-pointer 
+                                transition-all flex items-center justify-center select-none
+                                ${task.done
+                                ? "bg-[#8b5e3c]/20"
+                                : "bg-transparent hover:bg-[#8b5e3c]/10"
                             }`}
                         >
-                            {task.completed && (
-                                <span className="text-[#fff9eb] text-sm">
-                                    ✓
-                                </span>
+                            {task.done && (
+                                <span className="text-[#8b5e3c] font-black text-sm">✓</span>
                             )}
                         </div>
 
-                        {/* card */}
-                        <div
-                            className={`relative w-full rounded-[24px] border-2 shadow-md px-6 py-5 bg-[#fff8e7] border-[#8b5e3c]/30 transition-all ${
-                                task.priority === "high"
-                                    ? "rotate-[-1deg]"
-                                    : task.priority === "medium"
-                                        ? "rotate-[1deg]"
-                                        : "rotate-[-2deg]"
-                            }`}
-                        >
-                            {/* priority */}
-                            <div className="absolute -top-3 right-6 px-3 py-1 rounded-full text-xs font-bold bg-[#8b5e3c] text-[#f7f0dc] shadow-sm">
-                                {task.priority}
-                            </div>
-
-                            <div className="space-y-3">
-                                {/* title */}
+                        {/* Контент задачи */}
+                        <div className="w-full min-w-0 space-y-1">
+                            {/* Заголовок */}
+                            <div className="flex items-center gap-3 flex-wrap">
                                 <h2
-                                    className={`text-2xl font-black text-[#5f3b24] break-words pr-16 ${
-                                        task.completed
-                                            ? "line-through opacity-40"
-                                            : ""
+                                    className={`text-2xl font-black text-[#5f3b24] break-words tracking-wide transition-all duration-300
+                                        ${task.done
+                                        ? "line-through opacity-40 decoration-[#8b5e3c] decoration-2"
+                                        : ""
                                     }`}
                                 >
                                     {task.title}
                                 </h2>
 
-                                {/* details */}
-                                {task.details && (
+                                <span
+                                    className={`text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border border-dashed shrink-0 transition-colors
+                                        ${task.priority === "high"
+                                        ? "text-red-700 border-red-400 bg-red-50/40"
+                                        : task.priority === "medium"
+                                            ? "text-[#8b5e3c] border-[#8b5e3c]/40 bg-[#fff5da]/40"
+                                            : "text-gray-500 border-gray-300"
+                                    }`}
+                                >
+                                    {tTask(task.priority)}
+                                </span>
+                            </div>
+
+                            {/* Детали */}
+                            {task.details && (
+                                <div className="max-h-24 overflow-auto pr-2 scrollbar-thin">
                                     <p
-                                        className={`text-[#7a5a43] leading-relaxed break-words whitespace-pre-wrap ${
-                                            task.completed
-                                                ? "opacity-40"
-                                                : ""
-                                        }`}
+                                        className={`text-base text-[#7a5a43] font-medium leading-relaxed break-words whitespace-pre-wrap max-w-2xl transition-all duration-300
+                                            ${task.done ? "opacity-40" : ""}`}
                                     >
                                         {task.details}
                                     </p>
-                                )}
+                                </div>
+                            )}
 
-                                {/* time */}
-                                {(task.timeStart || task.timeEnd) && (
-                                    <div className="flex items-center gap-3 text-sm text-[#7a5a43]/80 pt-2">
-                                        <span>⏰ {task.timeStart || "--:--"}</span>
-                                        <span>→</span>
-                                        <span>{task.timeEnd || "--:--"}</span>
-                                    </div>
-                                )}
-                            </div>
+                            {/* Время */}
+                            {(task.timeStart || task.timeEnd) && (
+                                <div className="flex items-center gap-2 text-xs font-bold text-[#7a5a43]/70 pt-0.5">
+                                    <span>⏰ {task.timeStart || "--:--"}</span>
+                                    <span>→</span>
+                                    <span>{task.timeEnd || "--:--"}</span>
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 ))}

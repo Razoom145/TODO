@@ -1,0 +1,95 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "close": "Закрыть",
+    "back": "Назад",
+    "create": "Создать",
+    "add": "Добавить",
+    "update": "Обновить",
+    "submit": "Отправить",
+    "search": "Поиск",
+    "settings": "Настройки",
+    "logout": "Выйти",
+    "language": "Язык",
+    "connected": "Подключено",
+    "notConnected": "Не подключено"
+  },
+
+  "auth": {
+    "welcomeBack": "С возвращением",
+    "createAccount": "Создать аккаунт",
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "email": "Электронная почта",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "username": "Имя пользователя",
+    "invalidCredentials": "Неверный email или пароль",
+    "passwordMismatch": "Пароли не совпадают",
+    "unexpectedError": "Произошла непредвиденная ошибка",
+    "connectionError": "Ошибка соединения с сервером"
+  },
+
+  "dashboard": {
+    "title": "Сегодняшние заметки",
+    "loggedAs": "Вы вошли как",
+    "emptyTasks": "Задачи отсутствуют. Нажмите «Добавить», чтобы создать новую задачу.",
+    "addTask": "Добавить задачу",
+    "todayNotes": "Заметки на сегодня"
+  },
+
+  "task": {
+    "newTodo": "Новая задача",
+    "title": "Название",
+    "details": "Описание",
+    "priority": "Приоритет",
+    "timeStart": "Время начала",
+    "timeEnd": "Время окончания",
+    "writeTask": "Введите задачу...",
+    "littleNotes": "Небольшие заметки...",
+    "low": "Низкий",
+    "medium": "Средний",
+    "high": "Высокий",
+    "completed": "Выполнено"
+  },
+
+  "settings": {
+    "profileSettings": "Настройки профиля",
+    "general": "Общие",
+    "security": "Безопасность",
+    "integrations": "Интеграции",
+    "changePassword": "Изменение пароля",
+    "currentPassword": "Текущий пароль",
+    "newPassword": "Новый пароль",
+    "confirmNewPassword": "Подтвердите новый пароль",
+    "passwordUpdated": "Пароль успешно изменён",
+    "languageInterface": "Язык интерфейса",
+    "chooseLanguage": "Выберите предпочитаемый язык для приложения и уведомлений",
+    "linkedAccounts": "Связанные аккаунты"
+  },
+
+  "integrations": {
+    "telegramBot": "Telegram бот",
+    "connectBot": "Подключить бота",
+    "telegramDescription": "Получайте напоминания и отчёты по задачам прямо в Telegram",
+    "googleAccount": "Аккаунт Google",
+    "githubAccount": "Аккаунт GitHub"
+  },
+
+  "menu": {
+    "home": "Главная",
+    "dashboard": "Панель управления",
+    "deleteAccount": "Удалить аккаунт",
+    "settings": "Настройки",
+    "logout": "Выйти"
+  },
+
+  "alerts": {
+    "deleteAccountConfirm": "Вы уверены, что хотите удалить аккаунт? Все задачи будут удалены навсегда.",
+    "deleteAccountError": "Не удалось удалить аккаунт. Попробуйте позже."
+  }
+}

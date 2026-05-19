@@ -1,0 +1,95 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "create": "Create",
+    "add": "Add",
+    "update": "Update",
+    "submit": "Submit",
+    "search": "Search",
+    "settings": "Settings",
+    "logout": "Logout",
+    "language": "Language",
+    "connected": "Connected",
+    "notConnected": "Not connected"
+  },
+
+  "auth": {
+    "welcomeBack": "Welcome back",
+    "createAccount": "Create account",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "username": "Username",
+    "invalidCredentials": "Invalid email or password",
+    "passwordMismatch": "Passwords do not match",
+    "unexpectedError": "An unexpected error occurred",
+    "connectionError": "Connection error"
+  },
+
+  "dashboard": {
+    "title": "Today's Notes",
+    "loggedAs": "Logged as",
+    "emptyTasks": "No tasks yet. Click “Add” to create a new task.",
+    "addTask": "Add task",
+    "todayNotes": "Today's Notes"
+  },
+
+  "task": {
+    "newTodo": "New Todo",
+    "title": "Title",
+    "details": "Details",
+    "priority": "Priority",
+    "timeStart": "Start time",
+    "timeEnd": "End time",
+    "writeTask": "Write your task...",
+    "littleNotes": "Little notes here...",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "completed": "Completed"
+  },
+
+  "settings": {
+    "profileSettings": "Profile Settings",
+    "general": "General",
+    "security": "Security",
+    "integrations": "Integrations",
+    "changePassword": "Change Password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "passwordUpdated": "Password updated successfully",
+    "languageInterface": "Interface language",
+    "chooseLanguage": "Choose your preferred language for the app and notifications",
+    "linkedAccounts": "Linked accounts"
+  },
+
+  "integrations": {
+    "telegramBot": "Telegram Bot",
+    "connectBot": "Connect bot",
+    "telegramDescription": "Receive reminders and task reports directly in Telegram",
+    "googleAccount": "Google Account",
+    "githubAccount": "GitHub Account"
+  },
+
+  "menu": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "deleteAccount": "Delete Account",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+
+  "alerts": {
+    "deleteAccountConfirm": "Are you sure you want to delete your account? All tasks will be permanently deleted.",
+    "deleteAccountError": "Failed to delete account. Please try again later."
+  }
+}

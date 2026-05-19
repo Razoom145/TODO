@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth"; // Путь к вашим authOptions
+import { authOptions } from "@/auth";
 
 export async function GET() {
     try {
@@ -11,24 +11,17 @@ export async function GET() {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        // Выбираем только задачи авторизованного пользователя
         const tasks = await prisma.task.findMany({
             where: {
                 userId: session.user.id,
             },
-            orderBy: [
-                { completed: "asc" },
-                { createdAt: "desc" }
-            ]
+            orderBy: [{ done: "asc" }, { createdAt: "desc" }]
         });
 
         return NextResponse.json(tasks);
     } catch (error) {
         console.error("GET TASKS ERROR:", error);
-        return NextResponse.json(
-            { error: "Failed to fetch tasks" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Failed to fetch tasks" }, { status: 500 });
     }
 }
 
@@ -46,7 +39,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Title is required" }, { status: 400 });
         }
 
-        // Создаем задачу, привязанную к конкретному пользователю
         const task = await prisma.task.create({
             data: {
                 title: body.title,
@@ -54,53 +46,13 @@ export async function POST(req: Request) {
                 priority: body.priority || "medium",
                 timeStart: body.timeStart || "",
                 timeEnd: body.timeEnd || "",
-                userId: session.user.id, // Привязка
+                userId: session.user.id,
             }
         });
 
         return NextResponse.json(task);
     } catch (error) {
         console.error("POST TASK ERROR:", error);
-        return NextResponse.json(
-            { error: "Failed to create task" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Failed to create task" }, { status: 500 });
     }
 }
-
-export async function POST(req: Request) {
-    try {
-        // Проверка авторизации
-        const session = await getServerSession(authOptions);
-        if (!session?.user) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
-        const body = await req.json();
-
-        // Валидация входных данных
-        if (!body.title) {
-            return NextResponse.json({ error: "Title is required" }, { status: 400 });
-        }
-
-        const task = await prisma.task.create({
-            data: {
-                title: body.title,
-                details: body.details || "",
-                priority: body.priority || "medium",
-                timeStart: body.timeStart || "",
-                timeEnd: body.timeEnd || "",
-                // userId: session.user.id // связать с юзером, если настроено в Prisma
-            }
-        });
-
-        return NextResponse.json(task);
-    } catch (error) {
-        console.error("POST TASK ERROR:", error);
-        return NextResponse.json(
-            { error: "Failed to create task" },
-            { status: 500 }
-        );
-    }
-}
-
