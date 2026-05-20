@@ -32,10 +32,10 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
 
     // 1. ПОДКЛЮЧАЕМ SWR (Это твой единственный источник данных для задач)
-    const { data: tasksData, mutate } = useSWR<Task[]>("/api/tasks", fetcher, {
-        revalidateOnFocus: false,     // Не прыгать, когда юзер переключает вкладки
-        revalidateIfStale: false,     // Блокируем показ старого кэша при монтировании
-        dedupingInterval: 1000,       // Защита от спама запросами
+    const { data: tasksData, mutate, isLoading } = useSWR<Task[]>("/api/tasks", fetcher, {
+        revalidateOnFocus: false,
+        revalidateIfStale: true, // Меняем на true, чтобы кэш обновлялся жестко
+        dedupingInterval: 0,     // Сбрасываем интервал дедубликации для чистоты запроса
     });
 
     // Безопасно вытаскиваем массив тасок
@@ -49,30 +49,38 @@ export default function Dashboard() {
         return () => window.removeEventListener("tasksUpdated", handler);
     }, [mutate]);
 
-    // 3. ТАЙМЕРЫ УДАЛЕНИЯ ВЫПОЛНЕННЫХ ЗАДАЧ
-    // Оставляем твою логику исчезновения задач через минуту после выполнения
-    // 3. ТАЙМЕРЫ УДАЛЕНИЯ ВЫПОЛНЕННЫХ ЗАДАЧ (Теперь с реальным удалением из БД)
+    // 3. ТАЙМЕРЫ УДАЛЕНИЯ ВЫПОЛНЕННЫХ ЗАДАЧ (С защитой от бесконечных повторов)
     useEffect(() => {
         const timers: NodeJS.Timeout[] = [];
         const now = Date.now();
         const halfHourMs = 1 * 60 * 1000; // 1 минута
 
+        // Создаем временный массив для отслеживания тех, кого мы УЖЕ удаляем в данный момент
+        const currentlyDeleting = new Set<string>();
+
         tasks.forEach(t => {
-            if (t.done && t.completedAt) {
+            if (t.done && t.completedAt && !currentlyDeleting.has(t.id)) {
                 const completedTime = new Date(t.completedAt).getTime();
                 const elapsed = now - completedTime;
                 const remainingTime = halfHourMs - elapsed;
 
                 const deleteTasksAfterTimeout = async (taskId: string) => {
-                    try {
-                        // 1. Отправляем запрос на реальное удаление в твой API
-                        // Внимание: проверь свой роут удаления, обычно это DELETE /api/tasks?id=... или POST /api/tasks/delete
-                        await fetch(`/api/tasks?id=${taskId}`, { method: "DELETE" });
+                    if (currentlyDeleting.has(taskId)) return;
+                    currentlyDeleting.add(taskId);
 
-                        // 2. Локально убираем из кэша SWR, чтобы экран обновился
-                        mutate(prev => prev ? prev.filter(x => x.id !== taskId) : [], false);
+                    try {
+                        const res = await fetch(`/api/tasks?id=${taskId}`, { method: "DELETE" });
+
+                        if (res.ok) {
+                            // Если сервер стёр успешно, удаляем из кэша SWR
+                            mutate(prev => prev ? prev.filter(x => x.id !== taskId) : [], false);
+                        } else {
+                            console.error(`Сервер вернул ошибку при удалении: ${res.status}`);
+                            currentlyDeleting.delete(taskId); // Разрешаем повторить позже, если упало
+                        }
                     } catch (err) {
-                        console.error("Ошибка при автоматическом удалении задачи:", err);
+                        console.error("Ошибка сети при удалении задачи:", err);
+                        currentlyDeleting.delete(taskId);
                     }
                 };
 
@@ -82,7 +90,6 @@ export default function Dashboard() {
                     }, remainingTime);
                     timers.push(timer);
                 } else {
-                    // Если время уже вышло, пока юзер гулял по настройкам — удаляем сразу
                     deleteTasksAfterTimeout(t.id);
                 }
             }
@@ -171,9 +178,10 @@ export default function Dashboard() {
 
                         <div className="space-y-6 pl-14 text-[#5f3b24] text-xl relative z-10">
                             <div className="space-y-5 pt-2">
-                                {/* Пока SWR не получил данные, мягко пишем статус */}
-                                {!tasksData ? (
-                                    <p className="text-sm italic text-[#7a5a43]">Загрузка ваших заметок...</p>
+                                {/* Защита от мигания: пока идет первичная загрузка,
+                                    старый HTML с зачеркнутыми пунктами не покажется */}
+                                {isLoading ? (
+                                    <p className="text-sm italic text-[#7a5a43]">Синхронизация заметок...</p>
                                 ) : (
                                     <Exercise tasks={sortedTasks} onToggle={handleToggle} />
                                 )}
