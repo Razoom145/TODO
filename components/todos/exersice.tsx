@@ -38,14 +38,14 @@ export default function Exercise({ tasks, onToggle }: ExerciseProps) {
 
     if (tasks.length === 0) {
         return (
-            <p className="text-center text-[#7a5a43] italic pt-10">
+            <p className="text-center text-[#7a5a43] italic pt-10 text-sm sm:text-base">
                 {tDashboard("emptyTasks")}
             </p>
         );
     }
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
             <AnimatePresence initial={false} mode="popLayout">
                 {tasks.map((task) => (
                     <motion.div
@@ -66,12 +66,12 @@ export default function Exercise({ tasks, onToggle }: ExerciseProps) {
                             opacity: { duration: 0.3 },
                             scale: { duration: 0.25 },
                         }}
-                        className="flex items-start gap-5 hover:translate-x-1 transition-all duration-300 relative"
+                        className="flex items-start gap-3 sm:gap-5 hover:translate-x-1 transition-all duration-300 relative"
                     >
                         {/* Checkbox */}
                         <div
                             onClick={() => toggleTask(task)}
-                            className={`min-w-6 h-6 border-2 border-[#8b5e3c] rounded-md mt-1.5 cursor-pointer 
+                            className={`min-w-6 h-6 border-2 border-[#8b5e3c] rounded-md mt-1 sm:mt-1.5 cursor-pointer 
                                 transition-all flex items-center justify-center select-none
                                 ${task.done
                                 ? "bg-[#8b5e3c]/20"
@@ -86,9 +86,9 @@ export default function Exercise({ tasks, onToggle }: ExerciseProps) {
                         {/* Контент задачи */}
                         <div className="w-full min-w-0 space-y-1">
                             {/* Заголовок */}
-                            <div className="flex items-center gap-3 flex-wrap">
+                            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                                 <h2
-                                    className={`text-2xl font-black text-[#5f3b24] break-words tracking-wide transition-all duration-300
+                                    className={`text-lg sm:text-xl md:text-2xl font-black text-[#5f3b24] break-words tracking-wide transition-all duration-300
                                         ${task.done
                                         ? "line-through opacity-40 decoration-[#8b5e3c] decoration-2"
                                         : ""
@@ -98,7 +98,7 @@ export default function Exercise({ tasks, onToggle }: ExerciseProps) {
                                 </h2>
 
                                 <span
-                                    className={`text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border border-dashed shrink-0 transition-colors
+                                    className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded-md border border-dashed shrink-0 transition-colors
                                         ${task.priority === "high"
                                         ? "text-red-700 border-red-400 bg-red-50/40"
                                         : task.priority === "medium"
@@ -114,7 +114,7 @@ export default function Exercise({ tasks, onToggle }: ExerciseProps) {
                             {task.details && (
                                 <div className="max-h-24 overflow-auto pr-2 scrollbar-thin">
                                     <p
-                                        className={`text-base text-[#7a5a43] font-medium leading-relaxed break-words whitespace-pre-wrap max-w-2xl transition-all duration-300
+                                        className={`text-sm sm:text-base text-[#7a5a43] font-medium leading-relaxed break-words whitespace-pre-wrap max-w-2xl transition-all duration-300
                                             ${task.done ? "opacity-40" : ""}`}
                                     >
                                         {task.details}
@@ -124,7 +124,7 @@ export default function Exercise({ tasks, onToggle }: ExerciseProps) {
 
                             {/* Время */}
                             {(task.timeStart || task.timeEnd) && (
-                                <div className="flex items-center gap-2 text-xs font-bold text-[#7a5a43]/70 pt-0.5">
+                                <div className="flex items-center gap-2 text-[11px] sm:text-xs font-bold text-[#7a5a43]/70 pt-0.5">
                                     <span>⏰ {task.timeStart || "--:--"}</span>
                                     <span>→</span>
                                     <span>{task.timeEnd || "--:--"}</span>

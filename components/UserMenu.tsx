@@ -29,7 +29,7 @@ export default function UserMenu() {
     };
     const locale = useLocale(); // вернет "ru" или "en"
     return (
-        <div className="w-56 border-2 border-[#8b5e3c] border-dashed rounded-2xl bg-[#fffdf7] p-3 shadow-xl flex flex-col gap-1 rotate-[1deg]">
+        <div className="w-full max-w-[224px] sm:w-56 border-2 border-[#8b5e3c] border-dashed rounded-2xl bg-[#fffdf7] p-3 shadow-xl flex flex-col gap-1 rotate-[1deg]">
             <Link href="/dashboard/settings" className="flex items-center gap-3 px-3 py-2 text-sm text-[#5f3b24] font-medium hover:bg-[#f7f0dc] rounded-xl transition-colors w-full text-left">
                 <Settings className="w-4 h-4 text-[#7a5a43]"/>
                 <span>{tMenu("settings")}</span>

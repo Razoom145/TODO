@@ -72,39 +72,39 @@ export default function ADD({ isOpen, onClose, onCreated }: ModalProps) {
     if (!isOpen) return null;
 
     return (
-        <div onClick={onClose} className="fixed inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-50 px-4">
-            <div onClick={(e) => e.stopPropagation()} className="relative w-full max-w-[650px] bg-[#f7f0dc] border-[3px] border-[#8b5e3c] rounded-[32px] shadow-2xl overflow-hidden rotate-[-1deg]">
-                <div className="absolute -top-4 left-10 w-28 h-8 bg-[#d8c29d]/70 rotate-[-10deg]"></div>
-                <div className="absolute -top-4 right-10 w-28 h-8 bg-[#d8c29d]/70 rotate-[8deg]"></div>
+        <div onClick={onClose} className="fixed inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center z-50 px-4 py-6 overflow-y-auto">
+            <div onClick={(e) => e.stopPropagation()} className="relative w-full max-w-[650px] bg-[#f7f0dc] border-[3px] border-[#8b5e3c] rounded-[24px] sm:rounded-[32px] shadow-2xl overflow-hidden rotate-[-1deg] my-auto">
+                <div className="absolute -top-4 left-6 sm:left-10 w-20 sm:w-28 h-8 bg-[#d8c29d]/70 rotate-[-10deg]"></div>
+                <div className="absolute -top-4 right-6 sm:right-10 w-20 sm:w-28 h-8 bg-[#d8c29d]/70 rotate-[8deg]"></div>
 
                 <div className="absolute inset-0 opacity-40 pointer-events-none">
-                    {Array.from({ length: 14 }).map((_, i) => (
+                    {Array.from({ length: 20 }).map((_, i) => (
                         <div key={i} className="h-[48px] border-b border-[#7da1d1]/40"></div>
                     ))}
                 </div>
 
-                <div className="absolute left-16 top-0 w-[2px] h-full bg-red-400/50"></div>
+                <div className="absolute left-8 sm:left-16 top-0 w-[2px] h-full bg-red-400/50"></div>
 
-                <div className="relative z-10 p-12">
-                    <div className="inline-block mb-10 bg-[#fff5da] border-2 border-dashed border-[#8b5e3c] rounded-2xl px-6 py-3 shadow-md rotate-[-2deg]">
-                        <h1 className="text-3xl font-black tracking-wide text-[#5f3b24]">✏️ {tTask("newTodo").toUpperCase()}</h1>
+                <div className="relative z-10 p-6 sm:p-8 md:p-12">
+                    <div className="inline-block mb-6 sm:mb-10 bg-[#fff5da] border-2 border-dashed border-[#8b5e3c] rounded-2xl px-4 sm:px-6 py-2 sm:py-3 shadow-md rotate-[-2deg]">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-black tracking-wide text-[#5f3b24]">✏️ {tTask("newTodo").toUpperCase()}</h1>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-8 pl-10">
+                    <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 pl-4 sm:pl-8 md:pl-10">
                         <div className="rotate-[-1deg]">
-                            <p className="mb-2 text-[#7a5a43] font-semibold">📌 {tTask("title")}</p>
-                            <input type="text" value={title} onChange={handleChange} name="title" placeholder={tTask("writeTask")} className="w-full bg-transparent border-b-2 border-[#8b5e3c]/50 outline-none py-2 text-[#5f3b24] placeholder:text-[#7a5a43]/50 font-medium text-lg" required />
+                            <p className="mb-2 text-[#7a5a43] font-semibold text-sm sm:text-base">📌 {tTask("title")}</p>
+                            <input type="text" value={title} onChange={handleChange} name="title" placeholder={tTask("writeTask")} className="w-full bg-transparent border-b-2 border-[#8b5e3c]/50 outline-none py-2 text-[#5f3b24] placeholder:text-[#7a5a43]/50 font-medium text-base sm:text-lg" required />
                         </div>
 
                         <div className="rotate-[1deg]">
-                            <p className="mb-2 text-[#7a5a43] font-semibold">📝 {tTask("details")}</p>
-                            <textarea name="details" value={details} onChange={(e) => setDetails(e.target.value)} placeholder={tTask("littleNotes")} className="w-full min-h-[120px] resize-none bg-[#fff9eb]/60 border-2 border-dashed border-[#8b5e3c]/40 rounded-2xl p-4 outline-none text-[#5f3b24] placeholder:text-[#7a5a43]/50 font-medium" />
+                            <p className="mb-2 text-[#7a5a43] font-semibold text-sm sm:text-base">📝 {tTask("details")}</p>
+                            <textarea name="details" value={details} onChange={(e) => setDetails(e.target.value)} placeholder={tTask("littleNotes")} className="w-full min-h-[100px] sm:min-h-[120px] resize-none bg-[#fff9eb]/60 border-2 border-dashed border-[#8b5e3c]/40 rounded-2xl p-3 sm:p-4 outline-none text-[#5f3b24] placeholder:text-[#7a5a43]/50 font-medium text-sm sm:text-base" />
                         </div>
 
-                        <div className="flex gap-6">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                             <div className="flex-1 rotate-[-1deg]">
-                                <p className="mb-2 text-[#7a5a43] font-semibold">⭐ {tTask("priority")}</p>
-                                <select name="priority" value={priority} onChange={(e) => setPriority(e.target.value)} className="w-full bg-[#fff5da] border-2 border-[#8b5e3c]/40 rounded-xl px-4 py-3 outline-none text-[#5f3b24] font-bold shadow-sm">
+                                <p className="mb-2 text-[#7a5a43] font-semibold text-sm sm:text-base">⭐ {tTask("priority")}</p>
+                                <select name="priority" value={priority} onChange={(e) => setPriority(e.target.value)} className="w-full bg-[#fff5da] border-2 border-[#8b5e3c]/40 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 outline-none text-[#5f3b24] font-bold shadow-sm text-sm sm:text-base">
                                     <option value="low">{tTask("low")}</option>
                                     <option value="medium">{tTask("medium")}</option>
                                     <option value="high">{tTask("high")}</option>
@@ -112,28 +112,28 @@ export default function ADD({ isOpen, onClose, onCreated }: ModalProps) {
                             </div>
 
                             <div className="flex-1 rotate-[1deg]">
-                                <p className="mb-2 text-[#7a5a43] font-semibold">⏰ {tTask("timeStart")}</p>
-                                <input name="timeStart" value={timeStart} type="time" onChange={handleChange} className="w-full bg-[#fff5da] border-2 border-[#8b5e3c]/40 rounded-xl px-4 py-3 outline-none text-[#5f3b24] font-medium shadow-sm" />
+                                <p className="mb-2 text-[#7a5a43] font-semibold text-sm sm:text-base">⏰ {tTask("timeStart")}</p>
+                                <input name="timeStart" value={timeStart} type="time" onChange={handleChange} className="w-full bg-[#fff5da] border-2 border-[#8b5e3c]/40 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 outline-none text-[#5f3b24] font-medium shadow-sm text-sm sm:text-base" />
                             </div>
                         </div>
 
                         <div className="rotate-[-1deg]">
-                            <p className="mb-2 text-[#7a5a43] font-semibold">🌙 {tTask("timeEnd")}</p>
-                            <input name="timeEnd" value={timeEnd} type="time" onChange={handleChange} className="w-full bg-[#fff5da] border-2 border-[#8b5e3c]/40 rounded-xl px-4 py-3 outline-none text-[#5f3b24] font-medium shadow-sm" />
+                            <p className="mb-2 text-[#7a5a43] font-semibold text-sm sm:text-base">🌙 {tTask("timeEnd")}</p>
+                            <input name="timeEnd" value={timeEnd} type="time" onChange={handleChange} className="w-full bg-[#fff5da] border-2 border-[#8b5e3c]/40 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 outline-none text-[#5f3b24] font-medium shadow-sm text-sm sm:text-base" />
                         </div>
 
-                        <div className="flex justify-end gap-4 mt-12">
-                            <button type="button" className="px-6 py-3 rounded-2xl bg-[#e8d6b6] border-2 border-[#8b5e3c]/40 text-[#5f3b24] font-bold rotate-[-2deg] hover:scale-105 transition-all duration-300 shadow-md" onClick={onClose}>
+                        <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-4 mt-8 sm:mt-12">
+                            <button type="button" className="px-6 py-2.5 sm:py-3 rounded-2xl bg-[#e8d6b6] border-2 border-[#8b5e3c]/40 text-[#5f3b24] font-bold rotate-[-2deg] sm:hover:scale-105 transition-all duration-300 shadow-md text-sm sm:text-base" onClick={onClose}>
                                 {tCommon("cancel")}
                             </button>
-                            <button type="submit" className="px-8 py-3 rounded-2xl bg-[#8b5e3c] border-2 border-[#6d4427] text-[#f7f0dc] font-bold rotate-[2deg] hover:scale-105 transition-all duration-300 shadow-lg">
+                            <button type="submit" className="px-8 py-2.5 sm:py-3 rounded-2xl bg-[#8b5e3c] border-2 border-[#6d4427] text-[#f7f0dc] font-bold rotate-[2deg] sm:hover:scale-105 transition-all duration-300 shadow-lg text-sm sm:text-base">
                                 {tCommon("add")}
                             </button>
                         </div>
                     </form>
 
-                    <div className="absolute bottom-6 left-8 text-2xl opacity-30 rotate-[-12deg]">✦</div>
-                    <div className="absolute top-10 right-10 text-3xl opacity-30 rotate-[12deg]">📎</div>
+                    <div className="absolute bottom-4 left-4 text-xl sm:text-2xl opacity-30 rotate-[-12deg] hidden sm:block">✦</div>
+                    <div className="absolute top-8 right-6 text-2xl sm:text-3xl opacity-30 rotate-[12deg] hidden sm:block">📎</div>
                 </div>
             </div>
         </div>

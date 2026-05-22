@@ -53,7 +53,7 @@ export default function Dashboard() {
     useEffect(() => {
         const timers: NodeJS.Timeout[] = [];
         const now = Date.now();
-        const halfHourMs = 1 * 60 * 1000; // 1 минута
+        const halfHourMs = 30 * 60 * 1000; // 1 минута
 
         // Создаем временный массив для отслеживания тех, кого мы УЖЕ удаляем в данный момент
         const currentlyDeleting = new Set<string>();
@@ -135,24 +135,26 @@ export default function Dashboard() {
     if (!session) return null;
 
     return (
-        <main className="min-h-screen bg-[#d9c7a3] relative overflow-hidden px-8 py-10 font-sans">
-            <div className="absolute top-10 left-10 rotate-[-12deg] text-5xl opacity-20 select-none">✦</div>
-            <div className="absolute bottom-20 right-20 rotate-[8deg] text-6xl opacity-20 select-none">✎</div>
-            <div className="absolute top-1/3 right-10 rotate-[20deg] text-4xl opacity-20 select-none">📎</div>
+        <main className="min-h-screen bg-[#d9c7a3] relative overflow-hidden px-4 sm:px-8 py-6 sm:py-10 font-sans">
+            <div className="absolute top-10 left-10 rotate-[-12deg] text-5xl opacity-20 select-none hidden sm:block">✦</div>
+            <div className="absolute bottom-20 right-20 rotate-[8deg] text-6xl opacity-20 select-none hidden sm:block">✎</div>
+            <div className="absolute top-1/3 right-10 rotate-[20deg] text-4xl opacity-20 select-none hidden sm:block">📎</div>
 
-            <header className="max-w-[1200px] mx-auto flex flex-row justify-between items-center mb-10">
-                <div className="bg-[#f7f0dc] border-2 border-[#8b5e3c] border-dashed px-6 py-3 rounded-2xl shadow-lg rotate-[-2deg]">
-                    <p className="text-2xl font-black tracking-wide text-[#5f3b24]">🐾 Luck to do</p>
+            <header className="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-4 justify-between items-center mb-8 sm:mb-10">
+                <div className="bg-[#f7f0dc] border-2 border-[#8b5e3c] border-dashed px-6 py-2 rounded-2xl shadow-lg rotate-[-2deg] w-full sm:w-auto text-center">
+                    <p className="text-xl sm:text-2xl font-black tracking-wide text-[#5f3b24]">🐾 Luck to do</p>
                 </div>
 
-                <div className="relative bg-[#f7f0dc] border-2 border-[#8b5e3c] border-dashed rounded-2xl px-5 py-3 shadow-lg rotate-[2deg] flex flex-row items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-[#c49a6c] flex items-center justify-center text-xl border-2 border-[#8b5e3c]">🐱</div>
-                    <div>
-                        <p className="text-sm text-[#7a5a43]">{tDashboard("loggedAs")}</p>
-                        <p className="font-bold text-[#5f3b24]">{session?.user?.name || "User"}</p>
+                <div className="relative bg-[#f7f0dc] border-2 border-[#8b5e3c] border-dashed rounded-2xl px-4 sm:px-5 py-3 shadow-lg rotate-[2deg] flex flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#c49a6c] flex items-center justify-center text-lg sm:text-xl border-2 border-[#8b5e3c]">🐱</div>
+                        <div className="text-left">
+                            <p className="text-xs text-[#7a5a43]">{tDashboard("loggedAs")}</p>
+                            <p className="text-sm sm:text-base font-bold text-[#5f3b24] truncate max-w-[100px] sm:max-w-none">{session?.user?.name || "User"}</p>
+                        </div>
                     </div>
                     <button
-                        className="bg-[#8b5e3c] text-[#f7f0dc] font-bold px-4 py-2 rounded-xl rotate-[-3deg] hover:scale-105 transition-all duration-300 shadow-md border-2 border-[#6d4427]"
+                        className="bg-[#8b5e3c] text-[#f7f0dc] font-bold px-3 sm:px-4 py-2 rounded-xl rotate-[-3deg] sm:hover:scale-105 transition-all duration-300 shadow-md border-2 border-[#6d4427] text-xs sm:text-sm whitespace-nowrap"
                         onClick={() => setIsOpen(true)}
                     >
                         + {tDashboard("addTask")}
@@ -160,26 +162,25 @@ export default function Dashboard() {
                 </div>
             </header>
 
-            <section className="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-8 items-start justify-center">
-                <div className="relative bg-[#f7f0dc] w-full max-w-[850px] min-h-[650px] rounded-3xl shadow-2xl border-[3px] border-[#8b5e3c] overflow-hidden">
+            <section className="max-w-[1200px] mx-auto flex flex-col md:flex-row gap-6 md:gap-8 items-stretch md:items-start justify-center">
+                <div className="relative bg-[#f7f0dc] w-full max-w-[850px] min-h-[500px] sm:min-h-[650px] rounded-3xl shadow-2xl border-[3px] border-[#8b5e3c] overflow-hidden">
                     <div className="absolute inset-0 pointer-events-none opacity-40">
-                        {Array.from({ length: 22 }).map((_, idx) => (
+                        {Array.from({ length: 30 }).map((_, idx) => (
                             <div key={idx} className="h-[42px] border-b border-[#7da1d1]/40"></div>
                         ))}
                     </div>
-                    <div className="absolute left-20 top-0 w-[2px] h-full bg-red-400/50"></div>
-                    <div className="absolute -top-4 left-10 w-28 h-8 bg-[#d8c29d]/70 rotate-[-8deg]"></div>
-                    <div className="absolute -top-4 right-10 w-28 h-8 bg-[#d8c29d]/70 rotate-[8deg]"></div>
+                    <div className="absolute left-8 sm:left-20 top-0 w-[2px] h-full bg-red-400/50"></div>
+                    <div className="absolute -top-4 left-6 sm:left-10 w-20 sm:w-28 h-8 bg-[#d8c29d]/70 rotate-[-8deg]"></div>
+                    <div className="absolute -top-4 right-6 sm:right-10 w-20 sm:w-28 h-8 bg-[#d8c29d]/70 rotate-[8deg]"></div>
 
-                    <div className="relative z-10 p-16">
-                        <div className="mb-10 rotate-[-1deg] inline-block bg-[#fff5da] px-6 py-3 border-2 border-dashed border-[#8b5e3c] rounded-2xl shadow-md">
-                            <p className="text-3xl font-black text-[#5f3b24] tracking-wide">✏️ {tDashboard("todayNotes").toUpperCase()}</p>
+                    <div className="relative z-10 p-6 sm:p-12 md:p-16">
+                        <div className="mb-6 sm:mb-10 rotate-[-1deg] inline-block bg-[#fff5da] px-4 sm:px-6 py-2 sm:py-3 border-2 border-dashed border-[#8b5e3c] rounded-2xl shadow-md">
+                            <p className="text-xl sm:text-2xl md:text-3xl font-black text-[#5f3b24] tracking-wide">✏️ {tDashboard("todayNotes").toUpperCase()}</p>
                         </div>
 
-                        <div className="space-y-6 pl-14 text-[#5f3b24] text-xl relative z-10">
+                        <div className="space-y-6 pl-4 sm:pl-10 md:pl-14 text-[#5f3b24] text-xl relative z-10">
                             <div className="space-y-5 pt-2">
-                                {/* Защита от мигания: пока идет первичная загрузка,
-                                    старый HTML с зачеркнутыми пунктами не покажется */}
+                                {/* Защита от мигания */}
                                 {isLoading ? (
                                     <p className="text-sm italic text-[#7a5a43]">Синхронизация заметок...</p>
                                 ) : (
@@ -190,7 +191,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <aside className="sticky top-6 self-start">
+                <aside className="md:sticky md:top-6 self-center md:self-start w-full flex justify-center md:w-auto">
                     <UserMenu />
                 </aside>
             </section>
